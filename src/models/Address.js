@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const { uniqueId } = require('./UniqueIdGenerator');
 
 
 const addressSchema = new Schema({
-    // _id: {
-    //     type: String
-    // },
+    _id: {
+        type: String
+    },
     streetName: {
         type: String
     },
@@ -24,12 +23,12 @@ const addressSchema = new Schema({
     }
 }, {timestamps: true})
 
-// addressSchema.pre('save', function(next){
-//     if(!this._id){
-//         this._id = new mongoose.Types.ObjectId().toString();
-//     }
-//     return next();
-// })
+addressSchema.pre('save', function(next){
+    if(!this._id){
+        this._id = new mongoose.Types.ObjectId().toString();
+    }
+    return next();
+})
 
 // const Address = mongoose.models["Address"] 
 // ? mongoose.model("Address")

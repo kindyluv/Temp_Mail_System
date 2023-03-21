@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 
 const appUserSchema = new Schema({
-    // _id: {
-    //     type: String
-    // },
+    _id: {
+        type: String
+    },
     firstName: {
         type: String
     },
@@ -18,7 +18,8 @@ const appUserSchema = new Schema({
         unique: true
     },
     phoneNumber: {
-        type: String
+        type: String,
+        unique: true
     },
     password: {
         type: String
@@ -34,6 +35,10 @@ const appUserSchema = new Schema({
 
 appUserSchema.pre('save', async function (next) {
     try{
+        if(!this._id){
+            this._id = new mongoose.Types.ObjectId().toString();
+        }
+        
         if (!this.isModified('password')) {
             return next();
         }

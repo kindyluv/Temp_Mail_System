@@ -3,7 +3,7 @@ const { saveNewAddress } = require('./AddressService');
 
 const createNewAppUser = async (request)=>{
 
-    let seavedAddress = saveNewAddress(request.address);
+    let savedAddress = saveNewAddress(request.address);
     try {
         let newAppUser = new AppUser({
             firstName: request.firstName,
@@ -12,7 +12,7 @@ const createNewAppUser = async (request)=>{
             phoneNumber: request.phoneNumber,
             password: request.password,
             gender: request.gender,
-            address: seavedAddress._id
+            address: savedAddress._id
         })
         let savedUser = await newAppUser.save()
 
@@ -85,4 +85,17 @@ const findAllUsers = async () =>{
     })
 }
 
-module.exports = { createNewAppUser, findUserById, findUserByEmail, findAllUsers };
+const findUserByPhoneNumber = async (phoneNumber) => {
+    try {
+        let foundUser = await AppUser.findOne({ phoneNumber: phoneNumber });
+        console.log('found user --> ', foundUser);
+        return foundUser;
+    } catch (error) {
+        return{
+            message: `No User found with this phoneNumber ${phoneNumber}`,
+            data: 'No data'
+        }
+    }
+}
+
+module.exports = { createNewAppUser, findUserById, findUserByEmail, findAllUsers, findUserByPhoneNumber };

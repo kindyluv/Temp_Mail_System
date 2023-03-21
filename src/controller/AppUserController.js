@@ -58,4 +58,18 @@ const findAllUsers = (req, res, next) => {
     })
 }
 
-module.exports = { createUser, findUserById, findByEmail, findAllUsers};
+const findUserByPhoneNumber = (req, res, next) => {
+    appService.findUserByPhoneNumber(req.params.phoneNumber)
+    .then((response)=>{
+        res.json({
+            response
+        })
+    })
+    .catch((error)=>{
+        res.json({
+            message: error
+        })
+    })
+}
+
+module.exports = { createUser, findUserById, findByEmail, findAllUsers, findUserByPhoneNumber };
