@@ -7,13 +7,6 @@ const sendMessage = async (request) => {
         const { sender, receiver, messageTitle, messageBody } = request;
         let newMessage = new Message({ sender, receiver, messageTitle, messageBody });
 
-        // let newMessage = new Message({
-        //     sender: request.sender,
-        //     receiver: request.receiver,
-        //     messageTitle: request.messageTitle,
-        //     messageBody: request.messageBody
-        // })
-
         let savedMessage = await newMessage.save();
 
         let notification = await Notification({

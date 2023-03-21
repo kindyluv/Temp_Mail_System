@@ -2,10 +2,13 @@ const router = require('express').Router();
 const MessageController = require('../controller/MessageController');
 const AppUserController = require('../controller/AppUserController');
 const NotificationController = require('../controller/NotificationController');
+const AuthController = require('../controller/AuthController');
+
+// Authentication
+router.post('/auth/login', AuthController.login)
+router.post('/auth/register', AuthController.register)
 
 // App User
-
-router.post('/create', AppUserController.createUser)
 router.get('/user/:userId', AppUserController.findUserById);
 router.get('/user-email/:email', AppUserController.findByEmail)
 router.get('/users', AppUserController.findAllUsers);

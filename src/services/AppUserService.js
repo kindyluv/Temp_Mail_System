@@ -6,6 +6,7 @@ const createNewAppUser = async (request)=>{
     let savedAddress = saveNewAddress(request.address);
     try {
         let newAppUser = new AppUser({
+            userName: request.userName,
             firstName: request.firstName,
             lastName: request.lastName,
             email: emailGenerator(request.firstName, request.lastName),
@@ -17,6 +18,7 @@ const createNewAppUser = async (request)=>{
         let savedUser = await newAppUser.save()
 
         let response = {
+            userName: savedUser.userName,
             firstName: savedUser.firstName,
             lastName: savedUser.lastName,
             email: savedUser.email,

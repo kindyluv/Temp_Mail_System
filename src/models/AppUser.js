@@ -7,6 +7,11 @@ const appUserSchema = new Schema({
     _id: {
         type: String
     },
+    userName: {
+        type: String,
+        required: true,
+        unique: true
+    },
     firstName: {
         type: String
     },
@@ -50,9 +55,9 @@ appUserSchema.pre('save', async function (next) {
     }
 })
 
-appUserSchema.methods.comparePassword = async function (attempt, next) {
+appUserSchema.methods.validatePassword = async function(password, next){
     try {
-        return await bcrypt.compare(attempt, this.password)
+        return await bcrypt.compare(password, this.password);
     } catch (error) {
         return next(error);
     }
@@ -61,3 +66,60 @@ appUserSchema.methods.comparePassword = async function (attempt, next) {
 const AppUser = mongoose.model('AppUser', appUserSchema);
 
 module.exports = AppUser;
+
+
+
+/*
+
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+router.post('/register', async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = new User({ email, password });
+    await user.save();
+    const token
+
+
+
+const userSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: {
+      validator: (value) => validator.isEmail(value),
+      message: 'Invalid email address'
+    }
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8
+  }
+});
+
+userSchema.methods.generateAuthToken = function() {
+  const token = jwt.sign({ _id: this._id }, 'privatekey');
+  return token;
+}
+
+const User = mongoose.model('User', userSchema);
+
+app.post('/api/auth', async (req, res) => {
+  const { email, password } = req.body;
+  
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).send('Invalid email or password.');
+
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) return res.status(400).send('Invalid email or password.');
+
+  const token = user.generateAuthToken();
+  res.send(token);
+});
+
+*/
