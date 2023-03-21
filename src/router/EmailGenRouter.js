@@ -10,7 +10,7 @@ router.post('/auth/register', AuthController.register)
 
 // App User
 router.get('/user/:userId', AppUserController.findUserById);
-router.get('/user-email/:email', AppUserController.findByEmail)
+router.get('/user-email/:email', AppUserController.findByEmail);
 router.get('/users', AppUserController.findAllUsers);
 router.get('/user-phoneNumber/:phoneNumber', AppUserController.findUserByPhoneNumber);
 
